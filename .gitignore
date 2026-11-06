@@ -1,7 +1,10 @@
 bin/
 obj/
 publish/
+publish-*/
 artifacts/
+sxs.etl
+sxs.txt
 .vs/
 .vscode/
 *.user
