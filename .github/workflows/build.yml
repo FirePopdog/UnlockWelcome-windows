@@ -1,0 +1,50 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore UnlockWelcome.csproj
+
+      - name: Build
+        run: dotnet build UnlockWelcome.csproj -c Release --no-restore
+
+      - name: Publish portable package
+        run: dotnet publish UnlockWelcome.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o artifacts/UnlockWelcome-win-x64
+
+      - name: Archive
+        shell: pwsh
+        run: Compress-Archive -Path artifacts/UnlockWelcome-win-x64/* -DestinationPath artifacts/UnlockWelcome-win-x64.zip -Force
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: UnlockWelcome-win-x64
+          path: artifacts/UnlockWelcome-win-x64.zip
+
+      - name: Publish GitHub Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: artifacts/UnlockWelcome-win-x64.zip
+          generate_release_notes: true
