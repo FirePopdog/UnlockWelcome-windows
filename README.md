@@ -1,87 +1,120 @@
-# UnlockWelcome
+# UnlockWelcome Studio
 
-**A cinematic welcome animation for Windows when you unlock your PC.**
+**Create your own Windows unlock animation.**
 
-UnlockWelcome runs quietly in the system tray and listens for the Windows session-unlock notification. When your session is unlocked, it presents a short, elegant welcome animation over the desktop.
+UnlockWelcome Studio is a customizable desktop application for Windows 10 and Windows 11. It runs in the system tray, listens for Windows session-unlock notifications, and displays your chosen welcome experience after you unlock your PC.
 
-[English](#english) · [繁體中文](#繁體中文)
+## Features
 
-## English
+### Theme studio
+- Six built-in themes: Cinematic, Aurora, Minimal, Neon, Midnight, and Fluent.
+- Click a theme card to use it as a starting point.
+- Customize the title, subtitle, colors, typography, and alignment.
+- Save your own configuration as the active theme.
 
-### Features
+### Visual customization
+- Choose a local image background (PNG, JPG, JPEG, BMP).
+- Choose a local video background (MP4, WMV, AVI, MPG; playback depends on Windows codecs).
+- Customize background, title, and accent colors using HEX values.
+- Choose title font, title size, text alignment, and date/time visibility.
 
-- Detects Windows session unlock events through the Windows Terminal Services API.
-- Cinematic dark visual style with animated particles and a subtle glow.
-- Customizable greeting, subtitle, and animation duration.
-- Optional launch at Windows sign-in.
-- System tray controls and animation preview.
-- Local settings only; no analytics or network calls.
+### Animation controls
+- Choose Fade, Zoom, or Slide entrance animations.
+- Configure display duration or keep the welcome screen open until manually dismissed.
+- Enable or disable floating particles, adjust their count and speed, and toggle text glow.
+- Display on the primary monitor or all connected monitors.
+
+### Theme portability
+- Import and export themes as JSON (.uwtheme.json).
+- Share theme settings with other users.
+- Image and video assets are referenced by local file path and must be shared separately.
+
+### Windows integration
+- Detects session unlock using the Windows Terminal Services API.
+- Runs in the system tray and can launch at Windows sign-in.
+- Launching the EXE opens the Studio; launching it again brings the existing Studio window to the front.
+- Local settings are stored in the user's AppData folder.
 - Normal per-user operation does not require administrator privileges.
 
-### Requirements
+## Requirements
 
 - Windows 10 or Windows 11 (x64)
-- .NET 8 Desktop Runtime for framework-dependent builds
-- The GitHub Actions release package is self-contained and does not require a separately installed .NET runtime.
+- .NET 10 SDK to build from source
+- The self-contained release package does not require a separate .NET Desktop Runtime.
 
-### Build from source
+## Build
 
     dotnet restore
-    dotnet build -c Release
+    dotnet build UnlockWelcome.csproj -c Release
 
-To publish a self-contained x64 build:
+Publish a self-contained x64 executable:
 
-    dotnet publish UnlockWelcome.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+    dotnet publish UnlockWelcome.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o publish
 
-### Run
+## Run
 
-Launch UnlockWelcome.exe. The app appears in the system tray. Right-click the tray icon to preview the animation, open settings, or exit.
+Launch UnlockWelcome.exe to open the Studio. Close the Studio window to leave UnlockWelcome running in the system tray. Use the tray menu to open the Studio, preview the current animation, or exit.
 
-### Autostart
+Enable "登入 Windows 後自動在背景啟動" in Program Settings to start listening after you sign in.
 
-Enable "登入 Windows 時自動啟動" in Settings. This adds a per-user entry under HKCU\Software\Microsoft\Windows\CurrentVersion\Run.
+## Privacy
 
-### Privacy
+UnlockWelcome does not include analytics, telemetry, or runtime network requests. Selected image and video backgrounds are read from local files. Settings are stored locally under the current Windows user profile.
 
-UnlockWelcome does not collect analytics, transmit personal data, or require an internet connection at runtime. Settings are stored in the current user's AppData folder.
+## Known limitations
+
+- Video playback depends on media codecs available on the Windows installation.
+- Exported JSON themes include settings and local media paths, not the media files themselves.
+- UnlockWelcome displays an animation after Windows has unlocked the desktop; it does not replace or modify the secure Windows lock screen.
 
 ## 繁體中文
 
 ### 專案介紹
 
-UnlockWelcome 是一款 Windows 桌面解鎖歡迎動畫工具。程式會在背景常駐於系統匣，監聽 Windows 工作階段解鎖通知；當使用者解鎖電腦時，便會顯示電影感歡迎動畫。
+UnlockWelcome Studio 是一款 Windows 解鎖動畫自訂工具。程式會在系統匣常駐並監聽 Windows 工作階段解鎖事件；當使用者解鎖電腦後，就會播放自己設定的歡迎動畫。
 
-### 功能
+### 主題與畫面自訂
+- 內建 Cinematic、Aurora、Minimal、Neon、Midnight、Fluent 六種主題。
+- 可自訂主標題、副標題、文字顏色、背景色、強調色及文字對齊。
+- 可選擇標題字型與大小。
+- 可使用自己的 PNG、JPG、JPEG、BMP 背景圖片。
+- 可使用 MP4、WMV、AVI、MPG 影片背景，實際支援格式取決於 Windows 媒體編碼器。
 
-- 自動偵測 Windows 解鎖事件。
-- 深色電影感畫面、粒子動畫與柔和光暈。
-- 自訂主標題、副標題及動畫顯示時間。
-- 可選擇登入 Windows 時自動啟動。
-- 系統匣操作、動畫預覽與設定介面。
-- 不蒐集分析資料、不連線傳送個人資料。
+### 動畫控制
+- 淡入 Fade、縮放 Zoom、滑入 Slide 三種進場動畫。
+- 自訂顯示秒數，或設定為手動關閉。
+- 自訂粒子效果、數量、速度與文字柔光。
+- 支援主要螢幕或所有螢幕。
+
+### 主題匯入與分享
+- 可將設定匯出成 JSON 主題檔（.uwtheme.json）。
+- 可匯入其他使用者分享的主題。
+- 背景圖片與影片會以本機檔案路徑記錄，分享主題時需另外提供素材檔案。
+
+### Windows 整合
+- 使用 Windows 工作階段通知偵測解鎖事件。
+- 常駐系統匣，可設定登入 Windows 後自動在背景啟動。
+- 直接開啟 EXE 會進入動畫工作室；若程式已在背景執行，再次開啟會叫出現有視窗。
+- 設定儲存在使用者 AppData 資料夾。
 - 一般個人使用不需要系統管理員權限。
 
 ### 編譯方式
 
-需要 Windows 10 / 11 x64 與 .NET 8 SDK。
+需要 Windows 10 / 11 x64 與 .NET 10 SDK。
 
     dotnet restore
-    dotnet build -c Release
+    dotnet build UnlockWelcome.csproj -c Release
 
-建立免安裝 .NET Runtime 的獨立版本：
+建立免安裝 .NET Runtime 的獨立 EXE：
 
-    dotnet publish UnlockWelcome.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o publish
+    dotnet publish UnlockWelcome.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o publish
 
-### 使用方式
+### 隱私與限制
 
-執行 UnlockWelcome.exe 後，程式會常駐於系統匣。右鍵點擊圖示即可預覽動畫、開啟設定或結束程式。
+程式不包含遙測、分析或執行時網路請求。背景圖片與影片只會從使用者選擇的本機檔案載入。
 
-在設定中啟用「登入 Windows 時自動啟動」，即可讓程式在登入後自動執行。
-
-### 隱私
-
-UnlockWelcome 不包含遙測、分析或執行時網路連線。設定檔僅儲存在目前 Windows 使用者的 AppData 資料夾。
+注意：UnlockWelcome 是在 Windows 解鎖並進入桌面後顯示動畫，不會修改或取代 Windows 安全鎖定畫面。影片播放取決於 Windows 已安裝的媒體編碼器。
 
 ## License
 
-MIT. See [LICENSE](LICENSE).
+MIT. See LICENSE.

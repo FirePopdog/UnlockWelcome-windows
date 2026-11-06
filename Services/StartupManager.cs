@@ -25,7 +25,7 @@ public static class StartupManager
         {
             var executable = Environment.ProcessPath
                 ?? throw new InvalidOperationException("Unable to locate the application executable.");
-            key.SetValue(ValueName, "\"" + executable + "\"");
+            key.SetValue(ValueName, "\"" + executable + "\" --background");
         }
         else
         {
