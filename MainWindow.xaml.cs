@@ -77,7 +77,7 @@ public partial class MainWindow : Window
 
     private void Theme_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        if (_loading || ThemeComboBox.SelectedItem is not ComboBoxItem selected)
+        if (_loading || !IsLoaded || ThemeComboBox.SelectedItem is not ComboBoxItem selected)
             return;
 
         var theme = selected.Content?.ToString() ?? "Custom";
