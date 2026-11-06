@@ -1,0 +1,42 @@
+<Window x:Class="UnlockWelcome.Views.WelcomeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None" ResizeMode="NoResize" WindowState="Maximized"
+        WindowStartupLocation="Manual" ShowInTaskbar="False" Topmost="True"
+        Background="#070910" AllowsTransparency="False">
+    <Grid x:Name="Root" ClipToBounds="True" Opacity="0">
+        <Grid.Background>
+            <RadialGradientBrush GradientOrigin="0.5,0.45" Center="0.5,0.45" RadiusX="0.8" RadiusY="0.8">
+                <GradientStop Color="#202B49" Offset="0"/>
+                <GradientStop Color="#101626" Offset="0.48"/>
+                <GradientStop Color="#070910" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <Canvas x:Name="ParticleCanvas" IsHitTestVisible="False"/>
+        <Ellipse Width="580" Height="580" Fill="#183D78" Opacity="0.12" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Ellipse.Effect><BlurEffect Radius="100"/></Ellipse.Effect>
+        </Ellipse>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Width="760">
+            <TextBlock x:Name="Eyebrow" Text="YOUR SPACE. YOUR MOMENT." Foreground="#91A9E8"
+                       FontSize="11" FontWeight="SemiBold" HorizontalAlignment="Center" Opacity="0"/>
+            <TextBlock x:Name="Greeting" Text="Welcome back." Foreground="#F5F7FF"
+                       FontSize="58" FontWeight="Light" HorizontalAlignment="Center"
+                       Margin="0,28,0,0" TextAlignment="Center" Opacity="0">
+                <TextBlock.Effect><DropShadowEffect BlurRadius="28" ShadowDepth="0" Color="#9AB6FF" Opacity="0.2"/></TextBlock.Effect>
+            </TextBlock>
+            <TextBlock x:Name="Subtitle" Text="很高興再次見到你。" Foreground="#AAB5CC"
+                       FontSize="18" FontWeight="Light" HorizontalAlignment="Center"
+                       Margin="0,18,0,0" Opacity="0"/>
+            <Border x:Name="AccentLine" Width="0" Height="1" Background="#8FAEFF" Margin="0,34,0,0"
+                    HorizontalAlignment="Center" Opacity="0.85"/>
+            <TextBlock x:Name="DateText" Foreground="#75829E" FontSize="12"
+                       HorizontalAlignment="Center" Margin="0,28,0,0" Opacity="0"/>
+        </StackPanel>
+        <TextBlock Text="UNLOCK WELCOME" Foreground="#58647D" FontSize="9"
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,34" Opacity="0.65"/>
+        <Button x:Name="DismissButton" Content="跳過  ›" HorizontalAlignment="Right"
+                VerticalAlignment="Bottom" Margin="0,0,34,26" Padding="14,8"
+                Background="#20FFFFFF" Foreground="#AAB5CC" BorderThickness="0"
+                FontSize="11" Click="Dismiss_Click" Opacity="0.75"/>
+    </Grid>
+</Window>
