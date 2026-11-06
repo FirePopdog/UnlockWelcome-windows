@@ -24,7 +24,17 @@ public sealed class AppSettings
     public string DisplayTarget { get; set; } = "Primary";
     public string TextAlignment { get; set; } = "Center";
     public string FontFamilyName { get; set; } = "Segoe UI";
-    public int DurationSeconds { get; set; } = 5;
+
+    public bool EnableLoadingScreen { get; set; } = true;
+    public string LoadingTitle { get; set; } = "WELCOME TO YOUR SPACE";
+    public string LoadingSubtitle { get; set; } = "正在為你準備專屬桌面";
+    public string LoadingStatusText { get; set; } = "INITIALIZING EXPERIENCE";
+    public int LoadingDurationSeconds { get; set; } = 3;
+    public bool ShowLoadingProgress { get; set; } = true;
+    public bool ShowLoadingClock { get; set; } = false;
+    public bool MuteBackgroundVideo { get; set; } = true;
+
+    public int DurationSeconds { get; set; } = 8;
     public int FontSize { get; set; } = 58;
     public int ParticleCount { get; set; } = 34;
     public bool ShowDate { get; set; } = true;

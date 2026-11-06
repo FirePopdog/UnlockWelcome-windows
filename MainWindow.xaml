@@ -22,7 +22,24 @@
             <Setter Property="Foreground" Value="#F3F5FC"/>
             <Setter Property="BorderBrush" Value="#303A50"/>
             <Setter Property="Padding" Value="9,7"/>
-            <Setter Property="MinHeight" Value="36"/>
+                        <Setter Property="MinHeight" Value="38"/>
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Foreground" Value="#F3F5FC"/>
+                        <Setter Property="Background" Value="#151B29"/>
+                        <Setter Property="Padding" Value="10,8"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background" Value="#293A5B"/>
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background" Value="#243451"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
         </Style>
         <Style TargetType="CheckBox">
             <Setter Property="Foreground" Value="#DCE2F0"/>
@@ -226,17 +243,7 @@
                                             <ComboBoxItem Content="Georgia" Tag="Georgia"/>
                                             <ComboBoxItem Content="Times New Roman" Tag="Times New Roman"/>
                                         </ComboBox>
-                                        <TextBlock Text="背景圖片" Foreground="#8792A8" FontSize="11" Margin="0,14,0,6"/>
-                                        <DockPanel>
-                                            <Button Content="選擇圖片" Click="BrowseBackground_Click" DockPanel.Dock="Right" Margin="8,0,0,0"/>
-                                            <TextBox x:Name="BackgroundImagePathTextBox" IsReadOnly="True" Text="尚未選擇背景圖片"/>
-                                        </DockPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,9,0,0">
-                                            <Button Content="移除背景圖片" Click="ClearBackground_Click" Margin="0,0,8,0"/>
-                                            <Button Content="選擇影片背景" Click="BrowseVideoBackground_Click"/>
-                                        </StackPanel>
-                                        <TextBox x:Name="BackgroundVideoPathTextBox" IsReadOnly="True" Text="尚未選擇影片" Margin="0,8,0,0"/>
-                                        <TextBlock Text="支援 PNG、JPG、JPEG、BMP。圖片會以填滿方式顯示。" Foreground="#68758C" FontSize="10" TextWrapping="Wrap" Margin="0,15,0,0"/>
+                                        <TextBlock Text="背景媒體已集中在「載入畫面」分頁管理。" Foreground="#68758C" FontSize="10" TextWrapping="Wrap" Margin="0,14,0,0"/>
                                     </StackPanel>
                                 </Border>
                             </Grid>
@@ -244,7 +251,59 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem Header="動畫效果">
+                                <TabItem Header="載入畫面">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="4,19,4,15">
+                            <TextBlock Text="自訂你的解鎖片頭" FontSize="20" FontWeight="SemiBold"/>
+                            <TextBlock Text="每次解鎖時先播放自己的影片、GIF 或圖片，再接上歡迎動畫。素材會複製到 UnlockWelcome 資料夾，原始檔移動後仍可播放。" Foreground="#8792A8" FontSize="12" TextWrapping="Wrap" Margin="0,6,0,20"/>
+                            <Border Background="#151B29" CornerRadius="13" Padding="18" Margin="0,0,0,13">
+                                <StackPanel>
+                                    <CheckBox x:Name="EnableLoadingScreenCheckBox" Content="啟用自訂載入片頭" FontSize="14" FontWeight="SemiBold"/>
+                                    <TextBlock Text="片頭主標題" Foreground="#8792A8" FontSize="11" Margin="0,13,0,6"/>
+                                    <TextBox x:Name="LoadingTitleTextBox" Text="WELCOME TO YOUR SPACE"/>
+                                    <TextBlock Text="片頭副標題" Foreground="#8792A8" FontSize="11" Margin="0,13,0,6"/>
+                                    <TextBox x:Name="LoadingSubtitleTextBox" Text="正在為你準備專屬桌面"/>
+                                    <TextBlock Text="狀態文字" Foreground="#8792A8" FontSize="11" Margin="0,13,0,6"/>
+                                    <TextBox x:Name="LoadingStatusTextBox" Text="INITIALIZING EXPERIENCE"/>
+                                    <Grid Margin="0,14,0,0">
+                                        <Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="190"/></Grid.ColumnDefinitions>
+                                        <CheckBox x:Name="ShowLoadingProgressCheckBox" Content="顯示動態進度條"/>
+                                        <ComboBox x:Name="LoadingDurationComboBox" Grid.Column="1">
+                                            <ComboBoxItem Content="1 秒" Tag="1"/>
+                                            <ComboBoxItem Content="2 秒" Tag="2"/>
+                                            <ComboBoxItem Content="3 秒" Tag="3"/>
+                                            <ComboBoxItem Content="5 秒" Tag="5"/>
+                                            <ComboBoxItem Content="8 秒" Tag="8"/>
+                                            <ComboBoxItem Content="不自動切換" Tag="0"/>
+                                        </ComboBox>
+                                    </Grid>
+                                    <TextBlock Text="片頭播放時間" Foreground="#8792A8" FontSize="10" Margin="0,8,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#151B29" CornerRadius="13" Padding="18" Margin="0,0,0,13">
+                                <StackPanel>
+                                    <TextBlock Text="背景媒體素材" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                    <TextBlock Text="影片可使用 MP4、WMV、AVI；GIF 會逐格播放；也可選靜態圖片。影片解碼能力依 Windows 媒體編碼器而定。" Foreground="#8792A8" FontSize="11" TextWrapping="Wrap" Margin="0,0,0,13"/>
+                                    <TextBox x:Name="MediaSummaryTextBox" IsReadOnly="True" Text="尚未選擇背景媒體"/>
+                                    <WrapPanel Margin="0,12,0,0">
+                                        <Button Content="選擇影片" Click="BrowseVideoBackground_Click" Margin="0,0,8,8"/>
+                                        <Button Content="選擇 GIF" Click="BrowseGifBackground_Click" Margin="0,0,8,8"/>
+                                        <Button Content="選擇圖片" Click="BrowseBackground_Click" Margin="0,0,8,8"/>
+                                        <Button Content="移除素材" Click="ClearBackground_Click" Margin="0,0,8,8"/>
+                                    </WrapPanel>
+                                    <CheckBox x:Name="MuteVideoCheckBox" Content="影片靜音播放（建議開啟）" Margin="0,6,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="#151B29" CornerRadius="13" Padding="18">
+                                <StackPanel>
+                                    <TextBlock Text="使用流程" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                                    <TextBlock Text="選擇媒體 → 編輯片頭文字 → 設定片頭時間 → 預覽 → 儲存。GIF 會保留動畫影格；影片會循環播放直到片頭結束。" Foreground="#8792A8" FontSize="11" TextWrapping="Wrap"/>
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
+<TabItem Header="動畫效果">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel Margin="4,19,4,15">
                             <TextBlock Text="動態效果控制" FontSize="20" FontWeight="SemiBold"/>
@@ -259,6 +318,10 @@
                                             <ComboBoxItem Content="淡入 Fade" Tag="Fade"/>
                                             <ComboBoxItem Content="縮放 Zoom" Tag="Zoom"/>
                                             <ComboBoxItem Content="滑入 Slide" Tag="Slide"/>
+                                            <ComboBoxItem Content="柔焦 Blur" Tag="Blur"/>
+                                            <ComboBoxItem Content="彈跳 Bounce" Tag="Bounce"/>
+                                            <ComboBoxItem Content="逐字顯示 Typewriter" Tag="Typewriter"/>
+                                            <ComboBoxItem Content="故障閃爍 Glitch" Tag="Glitch"/>
                                         </ComboBox>
                                         <TextBlock Text="顯示時間" Foreground="#8792A8" FontSize="11" Margin="0,15,0,6"/>
                                         <ComboBox x:Name="DurationComboBox">

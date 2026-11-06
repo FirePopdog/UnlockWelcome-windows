@@ -13,6 +13,8 @@ namespace UnlockWelcome;
 public partial class MainWindow : Window
 {
     private bool _loading;
+    private string _pendingImagePath = "";
+    private string _pendingVideoPath = "";
 
     public MainWindow()
     {
@@ -33,8 +35,17 @@ public partial class MainWindow : Window
         AccentColorTextBox.Text = settings.AccentColor;
         BackgroundColorTextBox.Text = settings.BackgroundColor;
         TitleColorTextBox.Text = settings.TitleColor;
-        BackgroundImagePathTextBox.Text = string.IsNullOrWhiteSpace(settings.BackgroundImagePath) ? "尚未選擇背景圖片" : settings.BackgroundImagePath;
-        BackgroundVideoPathTextBox.Text = string.IsNullOrWhiteSpace(settings.BackgroundVideoPath) ? "尚未選擇影片" : settings.BackgroundVideoPath;
+        _pendingImagePath = settings.BackgroundImagePath;
+        _pendingVideoPath = settings.BackgroundVideoPath;
+        MediaSummaryTextBox.Text = !string.IsNullOrWhiteSpace(settings.BackgroundVideoPath) ? settings.BackgroundVideoPath :
+            !string.IsNullOrWhiteSpace(settings.BackgroundImagePath) ? settings.BackgroundImagePath : "尚未選擇背景媒體";
+        EnableLoadingScreenCheckBox.IsChecked = settings.EnableLoadingScreen;
+        LoadingTitleTextBox.Text = settings.LoadingTitle;
+        LoadingSubtitleTextBox.Text = settings.LoadingSubtitle;
+        LoadingStatusTextBox.Text = settings.LoadingStatusText;
+        ShowLoadingProgressCheckBox.IsChecked = settings.ShowLoadingProgress;
+        MuteVideoCheckBox.IsChecked = settings.MuteBackgroundVideo;
+        SetTag(LoadingDurationComboBox, settings.LoadingDurationSeconds.ToString());
         ShowDateCheckBox.IsChecked = settings.ShowDate;
         ParticlesCheckBox.IsChecked = settings.ShowParticles;
         GlowCheckBox.IsChecked = settings.EnableGlow;
@@ -157,14 +168,32 @@ public partial class MainWindow : Window
         var dialog = new Microsoft.Win32.OpenFileDialog
         {
             Title = "選擇歡迎動畫背景圖片",
-            Filter = "圖片檔案|*.png;*.jpg;*.jpeg;*.bmp|所有檔案|*.*",
+            Filter = "圖片檔案|*.png;*.jpg;*.jpeg;*.bmp;*.gif|所有檔案|*.*",
             CheckFileExists = true
         };
 
         if (dialog.ShowDialog() == true)
         {
-            BackgroundImagePathTextBox.Text = dialog.FileName;
-            BackgroundVideoPathTextBox.Text = "尚未選擇影片";
+            _pendingImagePath = dialog.FileName;
+            _pendingVideoPath = "";
+            MediaSummaryTextBox.Text = dialog.FileName;
+        }
+    }
+
+    private void BrowseGifBackground_Click(object sender, RoutedEventArgs e)
+    {
+        var dialog = new Microsoft.Win32.OpenFileDialog
+        {
+            Title = "選擇動畫 GIF",
+            Filter = "GIF 動畫|*.gif",
+            CheckFileExists = true
+        };
+
+        if (dialog.ShowDialog() == true)
+        {
+            _pendingImagePath = dialog.FileName;
+            _pendingVideoPath = "";
+            MediaSummaryTextBox.Text = dialog.FileName;
         }
     }
 
@@ -179,15 +208,17 @@ public partial class MainWindow : Window
 
         if (dialog.ShowDialog() == true)
         {
-            BackgroundVideoPathTextBox.Text = dialog.FileName;
-            BackgroundImagePathTextBox.Text = "尚未選擇背景圖片";
+            _pendingVideoPath = dialog.FileName;
+            _pendingImagePath = "";
+            MediaSummaryTextBox.Text = dialog.FileName;
         }
     }
 
     private void ClearBackground_Click(object sender, RoutedEventArgs e)
     {
-        BackgroundImagePathTextBox.Text = "尚未選擇背景圖片";
-        BackgroundVideoPathTextBox.Text = "尚未選擇影片";
+        _pendingImagePath = "";
+        _pendingVideoPath = "";
+        MediaSummaryTextBox.Text = "尚未選擇背景媒體";
     }
 
     private void Save_Click(object sender, RoutedEventArgs e)
@@ -224,8 +255,19 @@ public partial class MainWindow : Window
         settings.BackgroundColor = background;
         settings.TitleColor = titleColor;
         settings.FontFamilyName = SelectedTag(FontFamilyComboBox, "Segoe UI");
-        settings.BackgroundImagePath = File.Exists(BackgroundImagePathTextBox.Text) ? BackgroundImagePathTextBox.Text : "";
-        settings.BackgroundVideoPath = File.Exists(BackgroundVideoPathTextBox.Text) ? BackgroundVideoPathTextBox.Text : "";
+        settings.BackgroundImagePath = File.Exists(_pendingImagePath)
+            ? MediaAssetManager.CopyIntoLibrary(_pendingImagePath) : "";
+        settings.BackgroundVideoPath = File.Exists(_pendingVideoPath)
+            ? MediaAssetManager.CopyIntoLibrary(_pendingVideoPath) : "";
+        _pendingImagePath = settings.BackgroundImagePath;
+        _pendingVideoPath = settings.BackgroundVideoPath;
+        settings.EnableLoadingScreen = EnableLoadingScreenCheckBox.IsChecked == true;
+        settings.LoadingTitle = LoadingTitleTextBox.Text.Trim();
+        settings.LoadingSubtitle = LoadingSubtitleTextBox.Text.Trim();
+        settings.LoadingStatusText = LoadingStatusTextBox.Text.Trim();
+        settings.ShowLoadingProgress = ShowLoadingProgressCheckBox.IsChecked == true;
+        settings.MuteBackgroundVideo = MuteVideoCheckBox.IsChecked == true;
+        settings.LoadingDurationSeconds = int.Parse(SelectedTag(LoadingDurationComboBox, "3"));
         settings.ShowDate = ShowDateCheckBox.IsChecked == true;
         settings.ShowParticles = ParticlesCheckBox.IsChecked == true;
         settings.EnableGlow = GlowCheckBox.IsChecked == true;
@@ -236,6 +278,10 @@ public partial class MainWindow : Window
         settings.DisplayTarget = SelectedTag(DisplayTargetComboBox, "Primary");
         settings.TextAlignment = SelectedTag(TextAlignmentComboBox, "Center");
         settings.DurationSeconds = int.Parse(SelectedTag(DurationComboBox, "5"));
+        MediaSummaryTextBox.Text = !string.IsNullOrWhiteSpace(settings.BackgroundVideoPath) ? settings.BackgroundVideoPath :
+            !string.IsNullOrWhiteSpace(settings.BackgroundImagePath) ? settings.BackgroundImagePath : "尚未選擇背景媒體";
+        _pendingImagePath = settings.BackgroundImagePath;
+        _pendingVideoPath = settings.BackgroundVideoPath;
         AppSettings.Save();
         StartupManager.SetEnabled(StartupCheckBox.IsChecked == true);
         ActiveThemeLabel.Text = settings.ThemeName;

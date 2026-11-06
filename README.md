@@ -1,8 +1,8 @@
 # UnlockWelcome Studio
 
-**Create your own Windows unlock animation.**
+**Create your own Windows unlock animation and custom loading intro.**
 
-UnlockWelcome Studio is a customizable desktop application for Windows 10 and Windows 11. It runs in the system tray, listens for Windows session-unlock notifications, and displays your chosen welcome experience after you unlock your PC.
+UnlockWelcome Studio 2.1 is a customizable desktop application for Windows 10 and Windows 11. It runs in the system tray, listens for Windows session-unlock notifications, and displays your chosen welcome experience after you unlock your PC.
 
 ## Features
 
@@ -12,14 +12,24 @@ UnlockWelcome Studio is a customizable desktop application for Windows 10 and Wi
 - Customize the title, subtitle, colors, typography, and alignment.
 - Save your own configuration as the active theme.
 
+### Custom loading intro
+- Play a personal intro screen before the welcome animation after Windows unlock.
+- Use MP4, WMV or AVI video backgrounds with looping playback. Actual video codec support depends on Windows.
+- Use animated GIF backgrounds with frame-by-frame playback, or static PNG/JPG/BMP images.
+- Customize loading title, subtitle, status text, progress animation, and intro duration.
+- Skip the intro manually to move to the main welcome animation.
+- Selected media is copied to the local UnlockWelcome media library, so moving the original file does not break the theme.
+
 ### Visual customization
 - Choose a local image background (PNG, JPG, JPEG, BMP).
 - Choose a local video background (MP4, WMV, AVI, MPG; playback depends on Windows codecs).
+- Choose an animated GIF background with frame timing, or a static image.
 - Customize background, title, and accent colors using HEX values.
 - Choose title font, title size, text alignment, and date/time visibility.
 
 ### Animation controls
-- Choose Fade, Zoom, or Slide entrance animations.
+- Choose Fade, Zoom, Slide, Blur, Bounce, Typewriter, or Glitch entrance animations.
+- Add ambient expanding rings and animated particles.
 - Configure display duration or keep the welcome screen open until manually dismissed.
 - Enable or disable floating particles, adjust their count and speed, and toggle text glow.
 - Display on the primary monitor or all connected monitors.
@@ -59,7 +69,7 @@ Enable "登入 Windows 後自動在背景啟動" in Program Settings to start li
 
 ## Privacy
 
-UnlockWelcome does not include analytics, telemetry, or runtime network requests. Selected image and video backgrounds are read from local files. Settings are stored locally under the current Windows user profile.
+UnlockWelcome does not include analytics, telemetry, or runtime network requests. Selected image and video backgrounds are read from local files. Settings are stored locally under the current Windows user profile. Imported media is copied to %AppData%\UnlockWelcome\Media.
 
 ## Known limitations
 
@@ -80,8 +90,17 @@ UnlockWelcome Studio 是一款 Windows 解鎖動畫自訂工具。程式會在�
 - 可使用自己的 PNG、JPG、JPEG、BMP 背景圖片。
 - 可使用 MP4、WMV、AVI、MPG 影片背景，實際支援格式取決於 Windows 媒體編碼器。
 
+### 自訂載入片頭
+- Windows 解鎖後先播放自己的片頭，再接上主歡迎動畫。
+- 可使用 MP4、WMV、AVI 影片背景，並循環播放（實際格式支援取決於 Windows 編碼器）。
+- 支援 GIF 逐影格動畫，也能使用 PNG、JPG、BMP 靜態圖片。
+- 自訂片頭標題、副標題、狀態文字、動態進度條與播放秒數。
+- 可以手動跳過片頭。
+- 媒體素材會複製到使用者 AppData 的媒體庫，不依賴原始檔案位置。
+
 ### 動畫控制
-- 淡入 Fade、縮放 Zoom、滑入 Slide 三種進場動畫。
+- 淡入 Fade、縮放 Zoom、滑入 Slide、柔焦 Blur、彈跳 Bounce、逐字 Typewriter、故障閃爍 Glitch 七種進場動畫。
+- 加入擴散光環與漂浮粒子效果。
 - 自訂顯示秒數，或設定為手動關閉。
 - 自訂粒子效果、數量、速度與文字柔光。
 - 支援主要螢幕或所有螢幕。

@@ -4,23 +4,29 @@
         WindowStyle="None" ResizeMode="NoResize" WindowState="Normal"
         WindowStartupLocation="Manual" ShowInTaskbar="False" Topmost="True"
         Background="#070910" AllowsTransparency="False">
-    <Grid x:Name="Root" ClipToBounds="True" Opacity="0" RenderTransformOrigin="0.5,0.5">
+    <Grid x:Name="Root" ClipToBounds="True" Opacity="1" RenderTransformOrigin="0.5,0.5">
         <Grid.RenderTransform>
             <TransformGroup>
                 <ScaleTransform x:Name="ZoomTransform" ScaleX="1" ScaleY="1"/>
                 <TranslateTransform x:Name="SlideTransform" Y="0"/>
             </TransformGroup>
         </Grid.RenderTransform>
+
         <Image x:Name="BackgroundImage" Stretch="UniformToFill" Visibility="Collapsed"/>
-        <MediaElement x:Name="BackgroundVideo" Stretch="UniformToFill" LoadedBehavior="Manual" UnloadedBehavior="Stop" IsMuted="True" Visibility="Collapsed" MediaOpened="BackgroundVideo_MediaOpened" MediaEnded="BackgroundVideo_MediaEnded"/>
+        <Image x:Name="BackgroundGifImage" Stretch="UniformToFill" Visibility="Collapsed"/>
+        <MediaElement x:Name="BackgroundVideo" Stretch="UniformToFill" LoadedBehavior="Manual"
+                      UnloadedBehavior="Stop" IsMuted="True" Visibility="Collapsed"
+                      MediaOpened="BackgroundVideo_MediaOpened" MediaEnded="BackgroundVideo_MediaEnded"/>
         <Rectangle x:Name="BackgroundOverlay" Fill="#50000000"/>
         <Ellipse x:Name="GlowOrb" Width="620" Height="620" Opacity="0.18"
                  HorizontalAlignment="Center" VerticalAlignment="Center">
             <Ellipse.Effect><BlurEffect Radius="110"/></Ellipse.Effect>
         </Ellipse>
+        <Canvas x:Name="AmbientCanvas" IsHitTestVisible="False"/>
         <Canvas x:Name="ParticleCanvas" IsHitTestVisible="False"/>
+
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Width="900">
-            <StackPanel x:Name="ContentPanel" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+            <StackPanel x:Name="ContentPanel" HorizontalAlignment="Stretch" VerticalAlignment="Center" Opacity="0">
                 <TextBlock x:Name="Eyebrow" Text="YOUR SPACE. YOUR MOMENT."
                            Foreground="#91A9E8" FontSize="11" FontWeight="SemiBold"
                            HorizontalAlignment="Stretch" TextAlignment="Center" Opacity="0"/>
@@ -37,8 +43,32 @@
                            Margin="0,28,0,0" Opacity="0"/>
             </StackPanel>
         </Grid>
+
+        <StackPanel x:Name="LoadingPanel" Width="760" HorizontalAlignment="Center"
+                    VerticalAlignment="Center" Opacity="1" Margin="35">
+            <TextBlock Text="UNLOCK WELCOME EXPERIENCE" Foreground="#91A9E8"
+                       FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center"/>
+            <TextBlock x:Name="LoadingTitleText" Text="WELCOME TO YOUR SPACE"
+                       Foreground="#F5F7FF" FontSize="36" FontWeight="Light"
+                       TextAlignment="Center" HorizontalAlignment="Stretch"
+                       TextWrapping="Wrap" Margin="0,23,0,0"/>
+            <TextBlock x:Name="LoadingSubtitleText" Text="正在為你準備專屬桌面"
+                       Foreground="#C3CBDC" FontSize="16" TextAlignment="Center"
+                       HorizontalAlignment="Stretch" TextWrapping="Wrap" Margin="0,14,0,0"/>
+            <Border x:Name="LoadingProgressTrack" Height="3" Width="440"
+                    Background="#55FFFFFF" CornerRadius="2" HorizontalAlignment="Center"
+                    Margin="0,32,0,0" ClipToBounds="True">
+                <Border x:Name="LoadingProgressIndicator" Width="58" Height="3"
+                        Background="#AFC2FF" HorizontalAlignment="Left" CornerRadius="2"/>
+            </Border>
+            <TextBlock x:Name="LoadingStatusText" Text="INITIALIZING EXPERIENCE"
+                       Foreground="#A1AEC5" FontSize="10" HorizontalAlignment="Center"
+                       Margin="0,18,0,0"/>
+        </StackPanel>
+
         <TextBlock Text="UNLOCK WELCOME" Foreground="#8792A8" FontSize="9"
-                   HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,34" Opacity="0.65"/>
+                   HorizontalAlignment="Center" VerticalAlignment="Bottom"
+                   Margin="0,0,0,34" Opacity="0.65"/>
         <Button x:Name="DismissButton" Content="跳過  ›" HorizontalAlignment="Right"
                 VerticalAlignment="Bottom" Margin="0,0,34,26" Padding="14,8"
                 Background="#66202A40" Foreground="#F4F6FC" BorderBrush="#66758D"
